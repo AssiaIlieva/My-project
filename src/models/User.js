@@ -1,4 +1,4 @@
-const {Schema, model, MongooseError} = require('mongoose');
+const {Schema, model, MongooseError, default: mongoose} = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
@@ -18,7 +18,17 @@ const userSchema = new Schema({
         type: String,
         minLength: 4,
         required: [true, 'Password is required'],
-    }
+    },
+    createdRecipes: [{
+        type: mongoose.Types.ObjectId,
+        default: [],
+        ref: 'Recipe',
+    }],
+    recommendedRecipes: [{
+        type: mongoose.Types.ObjectId,
+        default: [],
+        ref: 'recipe'
+    }],
 });
 
 userSchema.pre('save', async function(){
